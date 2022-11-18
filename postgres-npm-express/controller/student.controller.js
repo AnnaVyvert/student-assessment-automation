@@ -38,21 +38,8 @@ class student_controller {
         res.json(call.rows[0])
     }
     async get_all(req, res){
-        const id = req.params.id
-        const call = await db.query(`SELECT * FROM public.student where competition_id = ${id} and deleted <> true`)
-        if (call.rowCount === 0) return res.json([]) 
-        const age_translate = (id) =>{
-            switch(id){
-                case 0: return 'С 12 до 16 лет'
-                case 1: return 'С 16 до 18 лет'
-                default: return 'age_id: out of bound'
-            }
-        }
-
-        for(let i=0; i<call.rowCount; i++)
-            call.rows[i].age = age_translate(call.rows[i].age_id)
-
-        await res.json(call.rows)
+        const call = await db.query(`SELECT * FROM public.student`)
+        res.json(call.rows)
     }
     async update_parameter(req, res){
         const id = req.params.id

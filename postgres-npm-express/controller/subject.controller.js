@@ -10,7 +10,7 @@ class subject_controller {
         }catch(e){res.status(400).send(e)}//res.json('400 Bad Request')
     }
     async get_all(req, res){
-        const call = await db.query(`SELECT * FROM public.subject where deleted = false`)
+        const call = await db.query(`SELECT * FROM public.subject`)
         res.json(call.rows)
     }
     async get_one(req, res){

@@ -58,27 +58,8 @@ class result_list_controller {
     res.json(call.rows);
   }
   async get_all(req, res) {
-    const competition_id = req.params.id;
-    const ath_ids = await db.query(
-      `SELECT * FROM public.result_list where REGISTERED = 1 and COMPETITION_ID = ${competition_id}`
-    );
-    if (ath_ids.rowCount === 0) return res.json([]);
-    let ids = [];
-    for (let i = 0; i < ath_ids.rows.length; i++)
-      ids[i] = ath_ids.rows[i].athlet_id;
-    ids = ids.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
-    const call = await db.query(
-      `select athlet_id, name, category, surname, competition_id, rand_id from public.result_list ca, athlet at where ca.registered = 1 and ca.athlet_id = at.id and ca.COMPETITION_ID IN (${competition_id}) order by ca.rand_id desc`
-    );
-    for (let i = 0; i < ath_ids.rowCount; i++) {
-      for (let j = 0; j < ath_ids.rowCount; j++)
-        if (call.rows[i].athlet_id === ath_ids.rows[j].athlet_id)
-          call.rows[i].res = ath_ids.rows[j].result;
-      call.rows[i].n = i;
-    }
-    res.json(call.rows);
+    // const call = await db.query(`SELECT * FROM public.result_list`)
+    // res.json(call.rows)
   }
   async update_parameter(req, res) {
     const athlet_id = req.params.athlet_id;
