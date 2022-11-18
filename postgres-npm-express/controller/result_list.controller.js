@@ -33,26 +33,18 @@ class result_list_controller {
     // const call = await db.query(`SELECT * FROM public.result_list`)
     // res.json(call.rows)
   }
-  async update_parameter(req, res) {
-    const athlet_id = req.params.athlet_id;
-    const race_id = req.params.race_id;
-    const column = req.params.column;
-    const parameter = req.params.parameter;
-
-    console.log(athlet_id, column, parameter);
-    if (column === 'result' && parameter === 'to_null'){
-        console.log('sdfsdf')
-        const alt_call = await db.query(
-            `UPDATE public.result_list set ${column} = '' where athlet_id = ${athlet_id} and race_id=${race_id} RETURNING *`
-          );
-        return res.json(alt_call.rows[0]);
-    }
-      
-    const call_text = `UPDATE public.result_list set ${column} = '${parameter}' where athlet_id = ${athlet_id} and race_id=${race_id} RETURNING *`;
-    console.log(call_text);
-    const call = await db.query(call_text);
-    res.json(call.rows[0]);
+  async update_parameter(req, res){
+    const id = req.params.id
+    const column = req.params.column
+    const parameter = req.params.parameter
+    
+    console.log(column, parameter, id)
+    try{
+        const call = await db.query(`UPDATE public.result_list set ${column} = '${parameter}' where id = $1 RETURNING *`, [id])
+        res.json(call.rows[0])
+    }catch(e){res.status(400).send(e)}
   }
+
   async del_one(req, res) {
     const ath_id = req.params.id_ath;
     const race_id = req.params.id_race;

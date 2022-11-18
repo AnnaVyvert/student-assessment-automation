@@ -25,11 +25,11 @@ class group_controller {
         const column = req.params.column
         const parameter = req.params.parameter
         
-        console.log(id, column, parameter)
-        const call_text = `UPDATE public.group set ${column} = '${parameter}' where id = ${id} RETURNING *`
-        console.log(call_text)
-        const call = await db.query(call_text)
-        res.json(call.rows[0])
+        console.log(column, parameter, id)
+        try{
+            const call = await db.query(`UPDATE public.group set ${column} = '${parameter}' where id = $1 RETURNING *`, [id])
+            res.json(call.rows[0])
+        }catch(e){res.status(400).send(e)}
     }
     async del_one(req, res){
         const id = req.params.id

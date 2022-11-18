@@ -37,11 +37,12 @@ class student_controller {
         const column = req.params.column
         const parameter = req.params.parameter
         
-        const call_text = `UPDATE public.student set ${column} = '${parameter}' where id = ${id} RETURNING *`
-        console.log(call_text)
-        const call = await db.query(call_text)
-        res.json(call.rows[0])
-    }    
+        console.log(column, parameter, id)
+        try{
+            const call = await db.query(`UPDATE public.student set ${column} = '${parameter}' where id = $1 RETURNING *`, [id])
+            res.json(call.rows[0])
+        }catch(e){res.status(400).send(e)}
+    }  
     async del_one(req, res){
         const id = req.params.id
         const dependences = await db.query(`UPDATE athlet set trainer_id = null where trainer_id = ${id}`)
