@@ -1,0 +1,31 @@
+INSERT INTO public.group(number, start_year, cipher) values (1, 20, 'АСУб') RETURNING *;
+INSERT INTO public.group(number, start_year, cipher) values (2, 21, 'АСУб') RETURNING *;
+INSERT INTO public.group(number, start_year, cipher) values (1, 20, 'ЭВМб') RETURNING *;
+INSERT INTO public.group(number, start_year, cipher) values (1, 22, 'ЭВМб') RETURNING *;
+
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Никита', 'Сакович', 'Евгеньевич', true, '2002-06-24', 1) RETURNING *;
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Кирилл', 'Дырда', 'Максимович', true, '2002-05-21', 3) RETURNING *;
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Алина', 'Егорова', 'Романовна', false, '2003-04-27', 2) RETURNING *;
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Ольга', 'Китаева', 'Игоревна', false, '2003-04-14', 2) RETURNING *;
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Геннадий', 'Маликов', 'Никитич', true, '2002-03-11', 1) RETURNING *;
+INSERT INTO public.student(name, surname, patronym, sex, birth, group_id) values ('Роман', 'Буш', 'Романович', true, '2002-02-03', 1) RETURNING *;
+
+INSERT INTO public.subject(name, hours, exam) values ('Химия', 78, false) RETURNING *;
+INSERT INTO public.subject(name, hours, exam) values ('Физика', 124, false) RETURNING *;
+INSERT INTO public.subject(name, hours, exam) values ('ТАУ', 110, true) RETURNING *;
+INSERT INTO public.subject(name, hours, exam) values ('Иностранный язык', 104, false) RETURNING *;
+INSERT INTO public.subject(name, hours, exam) values ('Философия', 96, false) RETURNING *;
+INSERT INTO public.subject(name, hours, exam) values ('Математика', 108, true) RETURNING *;
+
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (1, 1, '4', '2022-11-11') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (1, 2, '3', '2022-10-15') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (2, 3, '5', '2022-09-14') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (2, 4, '4', '2022-02-20') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (3, 5, '5', '2022-03-05') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (3, 6, '4', '2022-08-12') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (4, 2, '4', '2022-08-16') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (5, 4, '3', '2022-10-27') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (6, 1, '3', '2022-09-02') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (3, 5, '3', '2022-09-07') RETURNING *;
+INSERT INTO public.result_list(student_id, subject_id, mark, date) values (4, 2, '4', '2022-11-19') RETURNING *;
+
