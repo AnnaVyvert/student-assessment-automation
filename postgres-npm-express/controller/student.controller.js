@@ -23,19 +23,10 @@ class student_controller {
     }
     async get_one(req, res){
         const id = req.params.id
-        const call = await db.query(`SELECT * FROM public.student where id = ${id}`)
-        if (call.rowCount === 0) res.json(call.rows) 
-        
-        const age_translate = (id) =>{
-            switch(id){
-                case 0: return 'С 12 до 16 лет'
-                case 1: return 'С 16 до 18 лет'
-                default: return 'age_id: out of bound'
-            }
-        }
-
-        call.rows[0].age = age_translate(call.rows[0].age_id)
-        res.json(call.rows[0])
+        try{
+            const call = await db.query(`SELECT * FROM public.student where id = $1`, [id])
+            res.json(call.rows[0])      
+        }catch(e){res.status(400).send(e)}
     }
     async get_all(req, res){
         const call = await db.query(`SELECT * FROM public.student`)

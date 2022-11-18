@@ -15,8 +15,10 @@ class group_controller {
     }
     async get_one(req, res){
         const id = req.params.id
-        const call = await db.query(`SELECT * FROM public.group where id = ${id}`)
-        res.json(call.rows[0])
+        try{
+            const call = await db.query(`SELECT * FROM public.group where id = $1`, [id])
+            res.json(call.rows[0])      
+        }catch(e){res.status(400).send(e)}
     }
     async update_parameter(req, res){
         const id = req.params.id
