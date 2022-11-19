@@ -41,7 +41,7 @@ const NotFoundPage = () => {
         </div>
         <img
           src="https://cdn-icons-png.flaticon.com/512/4225/4225647.png"
-          style={{ margin: '6em',   margin: 'auto', width: '30%', padding: 0, marginTop: '6em'}}
+          style={{ margin: '6em',   margin: 'auto', width: '20%', padding: 0, marginTop: '6em'}}
           draggable={false}
         />
       </div>

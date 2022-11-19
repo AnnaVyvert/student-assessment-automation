@@ -22,11 +22,12 @@
   transition: 0.3s;
   /* border-bottom: 2px dashed; */
   border-bottom: solid 2px;
+  margin-bottom: 0.3em;
   cursor: pointer;
 }
 
 .sidenav span:hover {
-  color: #f1f1f1;
+  color: #43c0f1;
 }
 
 .sidenav .close-btn {
@@ -85,8 +86,8 @@
 }
 
 .menu-btn {
-  font-size: 1.8em;
-  font-weight: bold;
+  font-size: 3em;
+  /* font-weight: bold; */
   cursor: pointer;
   position: absolute;
   color: whitesmoke;
