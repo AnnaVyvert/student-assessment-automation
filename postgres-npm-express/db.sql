@@ -3,6 +3,7 @@ CREATE TABLE group (
 	"number" integer NOT NULL,
 	"start_year" integer NOT NULL,
 	"cipher" varchar NOT NULL,
+	"deleted" BOOLEAN NOT NULL,
 	CONSTRAINT "group_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -18,6 +19,7 @@ CREATE TABLE student (
 	"sex" BOOLEAN NOT NULL,
 	"birth" DATE NOT NULL,
 	"group_id" integer NOT NULL,
+	"deleted" BOOLEAN NOT NULL,
 	CONSTRAINT "student_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -30,6 +32,7 @@ CREATE TABLE subject (
 	"name" varchar NOT NULL,
 	"hours" integer NOT NULL,
 	"exam" BOOLEAN NOT NULL,
+	"deleted" BOOLEAN NOT NULL,
 	CONSTRAINT "subject_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -43,6 +46,7 @@ CREATE TABLE result_list (
 	"subject_id" integer NOT NULL,
 	"mark" varchar,
 	"date" DATE,
+	"deleted" BOOLEAN NOT NULL,
 	CONSTRAINT "result_list_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
