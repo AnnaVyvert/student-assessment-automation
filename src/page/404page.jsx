@@ -12,7 +12,7 @@ const NotFoundPage = () => {
       <div style={{ textAlign: 'center' }}>
         <div
           style={{
-            backgroundColor: '#111',
+            backgroundColor: '#202020',
             textAlign: 'center',
             // borderRadius: '0.5em',
             fontVariantCaps: 'all-petite-caps',
@@ -40,7 +40,7 @@ const NotFoundPage = () => {
           </div>
         </div>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/4225/4225647.png"
+          src="https://cdn-icons-png.flaticon.com/512/8811/8811036.png"
           style={{ margin: '6em',   margin: 'auto', width: '20%', padding: 0, marginTop: '6em'}}
           draggable={false}
         />
