@@ -1,0 +1,66 @@
+body{
+  margin: 0;
+}
+.img-btn{
+  width: 2.4em;
+  padding-left: 0.8em;
+}
+.add-btn {
+  text-align: center;
+  background-color: #ecac51;
+  border: none;
+  color: white;
+  border-radius: 0.3em;
+  font-weight: bold;
+  font-variant: all-small-caps;
+  padding: 0.2em;
+  font-size: 0.7em;
+}
+.absolute-bottom-btn {
+  padding: 0.2em 2em 0.2em 2em;
+  font-size: 1.3em;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #202020;
+  color: white;
+  border-radius: 0.4em;
+  /* font-weight: bold; */
+  cursor: pointer;
+}
+.table-editable{
+  width: 100%;
+  /* border: 1px solid; */
+  /* margin: 0 auto; */
+}
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+thead {
+  display: contents;
+  user-select: none;
+}
+tbody td {
+  cursor: pointer;
+}
+tbody td:hover {
+  color: rgb(136, 191, 255);
+}
+table td {
+  border: 1px solid black; 
+  padding: 1rem;
+}
+tbody tr:first-child td {
+  border-top: 0;
+}
+tr td:first-child {
+  border-left: 0;
+}
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+tr td:last-child {
+  border-right: 0;
+}
