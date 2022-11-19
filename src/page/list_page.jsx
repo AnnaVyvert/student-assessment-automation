@@ -75,9 +75,9 @@ const ListPage = ({ role_id }) => {
           <table className='table-editable'>
             <thead>
               <tr>
-                <td>Шифр</td>
-                <td>Год</td>
-                <td>Номер</td>
+                <td>{requests.field_titles[0]}</td>
+                <td>{requests.field_titles[1]}</td>
+                <td>{requests.field_titles[2]}</td>
                 <td></td>
               </tr>
             </thead>
@@ -96,7 +96,7 @@ const ListPage = ({ role_id }) => {
                   <td>{elem[requests.fields[1]]}</td>
                   <td>{elem[requests.fields[2]]}</td>
                   <td>
-                    удалить
+                    [Удалить]
                   </td>
                 </tr>
             ))}
@@ -132,6 +132,7 @@ function get_req_router(role_id) {
         title: 'Список групп',
         get_info: 'group/',
         fields: ['cipher', 'start_year', 'number'],
+        field_titles: ['Шифр', 'Год начала обучения', 'Номер группы'],
       };
     case 2:
       return {
@@ -143,6 +144,7 @@ function get_req_router(role_id) {
         title: 'Список  студентов',
         get_info: 'student/',
         fields: ['surname', 'name', 'patronym'],
+        field_titles: ['Фамилия', 'Имя', 'Отчество'],
       };
     case 3:
       return {
@@ -153,7 +155,8 @@ function get_req_router(role_id) {
         delete: 'subject/',
         title: 'Список предметов',
         get_info: 'subject/',
-        fields: ['name', 'hours', 'exam'],
+        fields: ['name', 'hours', 'exam_field'],
+        field_titles: ['Название', 'Количество часов', 'Экзамен?'],
       };
     default:
       return [];
