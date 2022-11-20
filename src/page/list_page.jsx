@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { async_get, del_req, get_req } from '../server-api/requests_api';
 import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
-import { accountValidate } from '../utills/account_validate';
-import NotFoundPage from './404page';
 import SearchBar from '../components/search_bar/search_bar';
-import useAsyncState from '../utills/use_async_state';
 
 const ListPage = ({ role_id }) => {
   const [id, set_id] = useState(1);
@@ -24,9 +21,10 @@ const ListPage = ({ role_id }) => {
     setIsPopupVisible(true);
   };
 
-  const cell = (elem, requests, i) => {
+  const Cell = ({elem, requests, i}) => {
     return (
       <td
+        key={i+'td'}
         onClick={(e) => {
           set_field_data({
             ...elem,
@@ -91,9 +89,9 @@ const ListPage = ({ role_id }) => {
           <table className="table-editable">
             <thead>
               <tr>
-                <td>{requests.field_titles[0]}</td>
-                <td>{requests.field_titles[1]}</td>
-                <td>{requests.field_titles[2]}</td>
+                {requests.field_titles.map((key, i) => (
+                  <td>{key}</td>
+                ))}
                 <td />
               </tr>
             </thead>
@@ -101,15 +99,17 @@ const ListPage = ({ role_id }) => {
               {searchResults.map((elem, i) => (
                 <tr
                   className="competition_list_row"
-                  key={i}
+                  key={i+'tr'}
                   onClick={() => {
+                    console.log(elem)
+                    // console.log(requests.fields)
                     // navigate('/competition?id=' + elem.id);
                   }}
                 >
-                  {cell(elem, requests, 0)}
-                  {cell(elem, requests, 1)}
-                  {cell(elem, requests, 2)}
-                  <td>[Удалить]</td>
+                {requests.fields.map((key, i2) => (
+                  <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
+                ))}
+                  <td>{'[Удалить]'}</td>
                 </tr>
               ))}
             </tbody>
@@ -159,16 +159,16 @@ function get_req_router(role_id) {
         delete: 'student/',
         title: 'Список  студентов',
         get_info: 'student/',
-        fields: ['surname', 'name', 'patronym'],
-        field_labels: ['surname', 'name', 'patronym'],
-        field_titles: ['Фамилия', 'Имя', 'Отчество'],
+        fields: ['surname', 'name', 'patronym', 'sex', 'birth', 'group_id'],
+        field_labels: ['surname', 'name', 'patronym', 'sex_label', 'birth', 'group_label'],
+        field_titles: ['Фамилия', 'Имя', 'Отчество', 'Пол', 'Дата рождения', 'Группа'],
         field_regexs: [
           '^[a-zA-Zа-яА-Яё]+$',
           '^[a-zA-Zа-яА-Яё]+$',
           '^[a-zA-Zа-яА-Яё]+$',
         ],
         field_put: 'student',
-        field_types: [],
+        field_types: [,,,'sex','date','group'],
       };
     case 3:
       return {
@@ -185,7 +185,7 @@ function get_req_router(role_id) {
         field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2,3}$', ''],
         type: 'select',
         field_put: 'subject',
-        field_types: [, , 'sex'],
+        field_types: [, , 'exam'],
       };
     default:
       return [];
