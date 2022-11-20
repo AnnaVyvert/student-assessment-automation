@@ -18,7 +18,7 @@ class student_controller {
         }catch(e){res.status(400).send(e)}
     }
     async get_all(req, res){
-        const call = await db.query(`SELECT id, name, surname, patronym, sex, birth, group_id FROM public.student where deleted = false`)
+        const call = await db.query(`SELECT id, name, surname, patronym, sex, birth, group_id FROM public.student where deleted = false order by surname`)
         res.json(call.rows)
     }
     async update_parameter(req, res){

@@ -11,7 +11,7 @@ class subject_controller {
         }catch(e){res.status(400).send(e)}
     }
     async get_all(req, res){
-        const call = await db.query(`SELECT *, case exam when true then 'да' else 'нет' end as exam_field FROM subject`)
+        const call = await db.query(`SELECT *, case exam when true then 'Экзамен' else 'Зачёт' end as exam_label FROM subject order by name`)
         // const call = await db.query(`SELECT id, name, hours, exam FROM public.subject where deleted = false`)
         res.json(call.rows)
     }
