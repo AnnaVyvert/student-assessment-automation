@@ -23,7 +23,7 @@ const SearchBar = ({ elem, setSearchResults, type }) => {
         case 'subject':
           return (
             elem.name.toLowerCase().includes(query) ||
-            elem.hour.toString().includes(query)
+            elem.hours.toString().includes(query)
           );
         default:
           return false;
@@ -47,13 +47,6 @@ const SearchBar = ({ elem, setSearchResults, type }) => {
           return setSearchResults(elem)
         }}
       />
-      {/* <span>
-        <img 
-          alt='' 
-          className='img-btn'
-          src='https://cdn-icons-png.flaticon.com/512/2989/2989542.png' 
-        />
-      </span> */}
     </div>
     
   );

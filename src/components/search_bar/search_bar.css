@@ -7,21 +7,13 @@
   border-radius: 15px;
   border: none;
   width: 80%;
+  font-size: 1em;
+  background: url('https://cdn-icons-png.flaticon.com/512/2989/2989542.png')
+    no-repeat 98% whitesmoke;
   /* background-size: contain; */
   background-size: 1em;
-  font-size: 1em;
-  padding: 0.2em;
-  margin-top: 1em;
   /* https://cdn-icons-png.flaticon.com/512/1189/1189264.png */
   /* https://cdn-icons-png.flaticon.com/512/2397/2397983.png */
   /* https://cdn-icons-png.flaticon.com/128/2311/2311526.png */
   /* https://uploads-ssl.webflow.com/61153727f9133b18782027e3/615da416bb7e4c065d971dd7_loupe-p-500.png */
-}
-
-.search-bar:not(:placeholder-shown){
-  background: 0% 50% whitesmoke;
-}
-
-.search-bar:focus {
-  background: whitesmoke;
 }
