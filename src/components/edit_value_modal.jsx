@@ -5,6 +5,7 @@ import { async_get, async_put, get_req } from '../server-api/requests_api';
 
 const EditValueModal = ({ setIsPopupVisible, field }) => {
   // const elem = get_req(`/api/account/id/${id}`)[0]
+  console.log(field)
   const [attribute, set_attribute] = useState(field.value);
   const [selected_option, set_selected_option] = useState(0);
   const [selected_trainer, set_selected_trainer] = useState(
@@ -36,22 +37,21 @@ const EditValueModal = ({ setIsPopupVisible, field }) => {
           {/* {close_btn()} */}
         </div>
       </>
-     
     );
   };
-  const choose_exam = () => {
+  const choose_boolean = (option1, option2) => {
     return (
       <>
         <button
           className="add-btn"
-          style={{ padding: '0.5em'}}
+          style={{ padding: '0.5em' }}
           onClick={async () => {
             await async_put(`${field.put_req}${true}`);
             await setIsPopupVisible(false);
             window.location.reload();
           }}
         >
-          {'Экзамен'}
+          {option1}
         </button>
         <button
           className="add-btn"
@@ -62,12 +62,69 @@ const EditValueModal = ({ setIsPopupVisible, field }) => {
             window.location.reload();
           }}
         >
-          {'Зачёт'}
+          {option2}
         </button>
       </>
-    )
-  }
-  const submit_btn = useRef()
+    );
+  };
+  const choose_date = () => {
+    return (
+      <>
+        <input
+          autoFocus
+          className="field"
+          type={'date'}
+          defaultValue={'2002-01-01'}
+          onChange={(e) => {set_attribute(e.target.value)}}
+        />
+        <div style={{ textAlign: 'center' }}>
+          <button
+            className="add-btn"
+            style={{ padding: '0.5em', marginTop: '0.5em' }}
+            onClick={() => auth()}
+            ref={submit_btn}
+          >
+            Применить
+          </button>
+          {/* {close_btn()} */}
+        </div>
+      </>
+    );
+  };
+  const choose_list = (options) => {
+    return (
+      <>
+        <select
+          className="field"
+          style={{width: '8em', textAlign: 'left'}}
+          defaultValue={field.group_label}
+          onChange={(e) => {
+            set_selected_trainer(
+              e.target.options[e.target.options.selectedIndex].id
+            );
+          }}
+        >
+        {options.map((option, i) => (
+          <option key={i} id={option.id}>
+            {option.cipher}-{option.start_year}-{option.number}
+          </option>
+        ))}
+      </select>
+        <div style={{ textAlign: 'center' }}>
+          <button
+            className="add-btn"
+            style={{ padding: '0.5em', marginTop: '0.5em' }}
+            onClick={() => auth()}
+            ref={submit_btn}
+          >
+            Применить
+          </button>
+          {/* {close_btn()} */}
+        </div>
+      </>
+    );
+  };
+  const submit_btn = useRef();
   useKeypress('Enter', () => {
     submit_btn.current.click();
   });
@@ -75,9 +132,20 @@ const EditValueModal = ({ setIsPopupVisible, field }) => {
     setIsPopupVisible(false);
   });
   const bad_code = () => {
-    switch(field.type) {
-      case undefined: return input_type(field.type)
-      case 'sex': return choose_exam()
+    switch (field.type) {
+      case undefined:
+        return input_type(field.type);
+      case 'exam':
+        return choose_boolean('Экзамен', 'Зачёт');
+      case 'sex':
+        return choose_boolean('Мужской', 'Женский');
+      case 'date':
+        return choose_date();
+      case 'group':
+        return choose_list(get_req('groups'));
+        // const initial_group = [...select_ref.options].filter((elem)=>elem.value === field.group_label)[0]
+        // initial_group.selected = true
+
     }
   };
   async function auth() {
@@ -98,16 +166,15 @@ const EditValueModal = ({ setIsPopupVisible, field }) => {
       await setIsPopupVisible(false);
       window.location.reload();
     } else {
-      document.querySelector('.field').classList.add('invalid')
+      document.querySelector('.field').classList.add('invalid');
     }
   }
   return (
-    <div style={{textAlign: 'center'}}>
+    <div style={{ textAlign: 'center' }}>
       <div style={{ textAlign: 'center' }}>
         {/* <span>{field.label}</span> */}
       </div>
       <div>{bad_code()}</div>
-      
     </div>
   );
 };
