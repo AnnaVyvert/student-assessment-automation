@@ -8,13 +8,22 @@ const SearchBar = ({ elem, setSearchResults, type }) => {
       const query = e.target.value.toLowerCase()
       
       switch (type) {
-        case 'competition':
-          return elem.name.toLowerCase().includes(e.target.value.toLowerCase());
         case 'group':
           return (
             elem.cipher.toLowerCase().includes(query) ||
             elem.start_year.toString().includes(query) ||
             elem.number.toString().includes(query)
+          );
+        case 'student':
+          return (
+            elem.surname.toLowerCase().includes(query) ||
+            elem.name.toString().includes(query) ||
+            elem.patronym.toString().includes(query)
+          );
+        case 'subject':
+          return (
+            elem.name.toLowerCase().includes(query) ||
+            elem.hour.toString().includes(query)
           );
         default:
           return false;
