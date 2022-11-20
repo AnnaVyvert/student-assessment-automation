@@ -1,20 +1,30 @@
 body{
   margin: 0;
 }
+
+:root {
+  --third-color: #43c0f1;
+}
+
 .img-btn{
   width: 2.4em;
   padding-left: 0.8em;
 }
 .add-btn {
   text-align: center;
-  background-color: #ecac51;
+  background-color: #202020;
   border: none;
   color: white;
   border-radius: 0.3em;
   font-weight: bold;
   font-variant: all-small-caps;
   padding: 0.2em;
-  font-size: 0.7em;
+  font-size: 1em;
+  transition: .5s;
+  cursor: pointer;
+}
+.add-btn:hover {
+  color: var(--third-color);
 }
 .absolute-bottom-btn {
   padding: 0.2em 2em 0.2em 2em;
@@ -27,6 +37,7 @@ body{
   color: white;
   border-radius: 0.4em;
   /* font-weight: bold; */
+  font-variant: all-small-caps;
   cursor: pointer;
 }
 .table-editable{
@@ -46,7 +57,7 @@ tbody td {
   cursor: pointer;
 }
 tbody td:hover {
-  color: rgb(136, 191, 255);
+  color: var(--third-color);
 }
 table td {
   border: 1px solid black; 
@@ -63,4 +74,36 @@ tbody tr:last-child td {
 }
 tr td:last-child {
   border-right: 0;
+}
+
+.field {
+  width: 80%;
+  text-align: center;
+  /* background-color: lightgray; */
+  border-radius: 5px;
+  margin-bottom: 0.3em;
+  padding: 0.2em;
+  border: 1px solid black;
+  transition: width .2s ease-in-out;
+}
+.field:focus {
+  /* border: 1px solid #0096FF !important; */
+  outline: none;
+  width: 85%;
+  border: none;
+  /* box-shadow: 0 0 5px var(--third-color); */
+  border: 1px solid black;
+}
+.field:required:valid {
+  border-color: green;
+}
+.field:requireds:invalid {
+  border-color: red;
+}
+.invalid {
+  background: url("https://assets.digitalocean.com/labs/icons/exclamation-triangle-fill.svg")
+    no-repeat 95% 50% rgb(248, 193, 171);
+}
+.valid {
+  background: no-repeat 95% 50% rgb(213, 255, 213);
 }
