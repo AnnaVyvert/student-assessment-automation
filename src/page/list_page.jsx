@@ -109,7 +109,15 @@ const ListPage = ({ role_id }) => {
                 {requests.fields.map((key, i2) => (
                   <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
                 ))}
-                  <td>{'[Удалить]'}</td>
+                  <td
+                    onClick={(e)=>{
+                      e.target.parentElement.style = 'display: none'
+                      // console.log(requests.delete+elem.id)
+                      // del_req(requests.delete+elem.id)
+                    }}
+                  >
+                    {'[Удалить]'}
+                  </td>
                 </tr>
               ))}
             </tbody>
