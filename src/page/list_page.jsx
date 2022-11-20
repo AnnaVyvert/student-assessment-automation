@@ -1,44 +1,62 @@
-import React, { useState } from 'react';
-import { del_req, get_req } from '../server-api/requests_api';
+import React, { useEffect, useState } from 'react';
+import { async_get, del_req, get_req } from '../server-api/requests_api';
 import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import { accountValidate } from '../utills/account_validate';
 import NotFoundPage from './404page';
 import SearchBar from '../components/search_bar/search_bar';
-  
+import useAsyncState from '../utills/use_async_state';
+
 const ListPage = ({ role_id }) => {
   const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');
   const requests = get_req_router(role_id);
+  // const elem = await async_get(requests.get);
   const elem = get_req(requests.get);
   const [searchResults, setSearchResults] = useState(elem);
-  // console.log(searchResults);
   document.title = 'Список';
-  const acc_json = { id: id, role_id: role_id, get_info: requests.get_info };
+  const [field_data, set_field_data] = useState({});
   // const search = document.querySelector('.search-bar') || {}
-  // search.value=''
 
   const active_popup = (a) => {
     setCurrentPopup(a);
     setIsPopupVisible(true);
   };
-  // const elem = get_req(`/api/account/${role_id}`)
 
+  const cell = (elem, requests, i) => {
+    return (
+      <td
+        onClick={(e) => {
+          set_field_data({
+            ...elem,
+            label: requests.field_titles[i],
+            value: e.target.textContent,
+            regex: requests.field_regexs[i],
+            put_req: `${requests.field_put}/${elem.id}/${requests.fields[i]}/`,
+            type: requests.field_types[i],
+          });
+          setIsPopupVisible(true);
+        }}
+      >
+        {elem[requests.field_labels[i]]}
+      </td>
+    );
+  };
   return (
     <>
       {isPopupVisible && (
         <Popup
           active={isPopupVisible}
           setActive={setIsPopupVisible}
-          nameWindow={currentPopup}
+          nameWindow={'edit_value_modal'}
           param={{ entity: requests.list, post_api: '/api/' + requests.list }}
           bool={true}
-          obj={acc_json}
+          obj={field_data}
         />
       )}
-      <span onClick={()=>setSearchResults(elem)}>
-      {/* на эту строчку потрачено 4 часа, она нужна для обновления списка после поиска и перехода в другой раздел меню */}
+      <span onClick={() => setSearchResults(elem)}>
+        {/* на эту строчку потрачено 4 часа, она нужна для обновления списка после поиска и перехода в другой раздел меню */}
         <MenuBar />
       </span>
       <div
@@ -68,21 +86,19 @@ const ListPage = ({ role_id }) => {
           />
         </div>
       </div>
-      <div
-        style={{  }}
-      >
+      <div style={{}}>
         <div className="wrap">
-          <table className='table-editable'>
+          <table className="table-editable">
             <thead>
               <tr>
                 <td>{requests.field_titles[0]}</td>
                 <td>{requests.field_titles[1]}</td>
                 <td>{requests.field_titles[2]}</td>
-                <td></td>
+                <td />
               </tr>
             </thead>
             <tbody>
-            {searchResults.map((elem, i) => (
+              {searchResults.map((elem, i) => (
                 <tr
                   className="competition_list_row"
                   key={i}
@@ -90,21 +106,17 @@ const ListPage = ({ role_id }) => {
                     // navigate('/competition?id=' + elem.id);
                   }}
                 >
-                  <td>
-                    {elem[requests.fields[0]]}
-                  </td>
-                  <td>{elem[requests.fields[1]]}</td>
-                  <td>{elem[requests.fields[2]]}</td>
-                  <td>
-                    [Удалить]
-                  </td>
+                  {cell(elem, requests, 0)}
+                  {cell(elem, requests, 1)}
+                  {cell(elem, requests, 2)}
+                  <td>[Удалить]</td>
                 </tr>
-            ))}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-      {(
+      {
         <button
           className="absolute-bottom-btn"
           onClick={() => {
@@ -113,7 +125,7 @@ const ListPage = ({ role_id }) => {
         >
           Добавить
         </button>
-      )}
+      }
     </>
   );
 };
@@ -132,7 +144,11 @@ function get_req_router(role_id) {
         title: 'Список групп',
         get_info: 'group/',
         fields: ['cipher', 'start_year', 'number'],
+        field_labels: ['cipher', 'start_year', 'number'],
         field_titles: ['Шифр', 'Год начала обучения', 'Номер группы'],
+        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2}$', '^[0-9]{1,2}$'],
+        field_put: 'group',
+        field_types: [],
       };
     case 2:
       return {
@@ -144,7 +160,15 @@ function get_req_router(role_id) {
         title: 'Список  студентов',
         get_info: 'student/',
         fields: ['surname', 'name', 'patronym'],
+        field_labels: ['surname', 'name', 'patronym'],
         field_titles: ['Фамилия', 'Имя', 'Отчество'],
+        field_regexs: [
+          '^[a-zA-Zа-яА-Яё]+$',
+          '^[a-zA-Zа-яА-Яё]+$',
+          '^[a-zA-Zа-яА-Яё]+$',
+        ],
+        field_put: 'student',
+        field_types: [],
       };
     case 3:
       return {
@@ -155,8 +179,13 @@ function get_req_router(role_id) {
         delete: 'subject/',
         title: 'Список предметов',
         get_info: 'subject/',
-        fields: ['name', 'hours', 'exam_field'],
-        field_titles: ['Название', 'Количество часов', 'Экзамен?'],
+        fields: ['name', 'hours', 'exam'],
+        field_labels: ['name', 'hours', 'exam_label'],
+        field_titles: ['Название', 'Количество часов', 'Форма аттестации'],
+        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2,3}$', ''],
+        type: 'select',
+        field_put: 'subject',
+        field_types: [, , 'sex'],
       };
     default:
       return [];

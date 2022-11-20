@@ -10,7 +10,7 @@ class group_controller {
         }catch(e){res.status(400).send(e)}
     }
     async get_all(req, res){
-        const call = await db.query(`SELECT id, number, start_year, cipher FROM public.group where deleted = false`)
+        const call = await db.query(`SELECT id, number, start_year, cipher FROM public.group where deleted = false order by cipher`)
         res.json(call.rows)
     }
     async get_one(req, res){
