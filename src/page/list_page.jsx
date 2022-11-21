@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  async_get,
-  async_post,
   del_req,
   get_req,
 } from '../server-api/requests_api';
@@ -11,10 +9,11 @@ import SearchBar from '../components/search_bar/search_bar';
 import { listApi } from '../utills/list_api';
 import { registrationEntityFields } from '../utills/registration_entity_fields';
 import { inputField } from '../components/input_field/input_field';
+import { resetFields } from '../utills/reset_fields';
+import { registerEntity } from '../utills/register_entity';
 
 const ListPage = ({ role_id }) => {
   document.title = 'Список';
-  const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');
   const requests = listApi(role_id);
@@ -27,11 +26,7 @@ const ListPage = ({ role_id }) => {
   const post_api = requests.field_put;
   const fields_storage = useRef();
   const registration_fields_ref = useRef({});
-  resetFields(fields_storage);
-  let form_data = {};
-  const onChange = (e) => {
-    form_data = { ...form_data, [e.target.name]: e.target.value };
-  };
+  // resetFields(fields_storage, '.field', ['valid', 'invalid']);
 
   const active_popup = (a) => {
     setCurrentPopup(a);
@@ -161,7 +156,7 @@ const ListPage = ({ role_id }) => {
                 <td
                   className="td-clickable"
                   onClick={() => {
-                    register(
+                    registerEntity(
                       registration_fields,
                       registration_fields_ref.current,
                       fields_storage,
@@ -181,81 +176,3 @@ const ListPage = ({ role_id }) => {
 };
 
 export default ListPage;
-
-async function register(fields, registration_fields_ref, ref, post_api) {
-  const registration_fields_keys = Object.keys(registration_fields_ref);
-
-  console.log(registration_fields_ref);
-  const form_data = {};
-  for (let elem of registration_fields_keys) {
-    const target = registration_fields_ref[elem].firstChild;
-    console.log(target);
-    form_data[elem] =
-      target.type === 'select-one'
-        ? target.options[target.options.selectedIndex].id
-        : registration_fields_ref[elem].firstChild.value;
-  }
-
-  console.log(form_data);
-  if (form_data.trainer_id !== undefined)
-    form_data = { ...form_data, trainer_id: form_data.trainer_id.id };
-  console.log(post_api);
-  if (!validateFields(fields, form_data, ref))
-    return console.log('failed validate');
-  await async_post(post_api, form_data);
-  if (ref.current !== undefined)
-    [...ref.current.querySelectorAll('.field')].map((elem) => {
-      elem.classList.remove('valid');
-      return elem.classList.remove('invalid');
-    });
-  window.location.reload();
-}
-
-function validateFields(fields, form_data, ref) {
-  console.log(fields);
-  console.log(form_data);
-  const validated = fields.map((elem) => {
-    if (
-      !elem.required &&
-      (form_data[elem.name] === undefined || form_data[elem.name] === '')
-    )
-      return true;
-    if (form_data[elem.name] === undefined) return false;
-    return !elem.required || new RegExp(elem.regex).test(form_data[elem.name]);
-  });
-
-  const dates = [...ref.current.querySelectorAll('.field')].filter((elem) => {
-    return elem.type === 'date';
-  });
-  if (dates.length === 2) {
-    const date1 = new Date(dates[0].value).getTime();
-    const date2 = new Date(dates[1].value).getTime();
-    console.log(!date1 || !date2 || date1 > date2);
-    if (date1 > date2) {
-      validated[1] = false;
-      validated[2] = false;
-    }
-  }
-
-  console.log(validated);
-  if (!validated.includes(false)) {
-    return true;
-  } else {
-    [...ref.current.querySelectorAll('.field')].map((elem, i) =>
-      validated[i]
-        ? elem.setAttribute('class', 'field valid')
-        : elem.setAttribute('class', 'field invalid')
-    );
-  }
-}
-
-function resetFields(ref) {
-  if (ref.current !== undefined)
-    [...ref.current.querySelectorAll('.field')].map((elem) => {
-      elem.classList.remove('valid');
-      elem.value = '';
-      return elem.classList.remove('invalid');
-    });
-}
-
-

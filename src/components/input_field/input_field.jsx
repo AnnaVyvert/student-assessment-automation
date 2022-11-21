@@ -1,5 +1,5 @@
 export const inputField = (elem, i) => {
-  console.log(elem);
+  // console.log(elem);
   switch (elem.type) {
     case 'group':
       return select(i, elem.options, elem.name);
