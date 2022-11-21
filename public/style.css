@@ -76,7 +76,8 @@ tr td:last-child {
 }
 
 .field {
-  width: 80%;
+  width: 100%;
+  background-color: white;
   text-align: center;
   /* background-color: lightgray; */
   border-radius: 5px;
