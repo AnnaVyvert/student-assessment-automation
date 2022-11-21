@@ -3,12 +3,13 @@ import { async_get, del_req, get_req } from '../server-api/requests_api';
 import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
+import { listApi } from '../utills/list_api';
 
 const ListPage = ({ role_id }) => {
   const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');
-  const requests = get_req_router(role_id);
+  const requests = listApi(role_id);
   // const elem = await async_get(requests.get);
   const elem = get_req(requests.get);
   const [searchResults, setSearchResults] = useState(elem);
@@ -141,63 +142,3 @@ const ListPage = ({ role_id }) => {
 };
 
 export default ListPage;
-
-function get_req_router(role_id) {
-  switch (role_id) {
-    case 1:
-      return {
-        list: 'group',
-        get: 'groups',
-        info: 'account_info',
-        create: 'reg_ath',
-        delete: 'group/',
-        title: 'Список групп',
-        get_info: 'group/',
-        fields: ['cipher', 'start_year', 'number'],
-        field_labels: ['cipher', 'start_year', 'number'],
-        field_titles: ['Шифр', 'Год начала обучения', 'Номер группы'],
-        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2}$', '^[0-9]{1,2}$'],
-        field_put: 'group',
-        field_types: [],
-      };
-    case 2:
-      return {
-        list: 'student',
-        get: 'students',
-        info: 'account_info',
-        create: 'reg_trainer',
-        delete: 'student/',
-        title: 'Список  студентов',
-        get_info: 'student/',
-        fields: ['surname', 'name', 'patronym', 'sex', 'birth', 'group_id'],
-        field_labels: ['surname', 'name', 'patronym', 'sex_label', 'birth', 'group_label'],
-        field_titles: ['Фамилия', 'Имя', 'Отчество', 'Пол', 'Дата рождения', 'Группа'],
-        field_regexs: [
-          '^[a-zA-Zа-яА-Яё]+$',
-          '^[a-zA-Zа-яА-Яё]+$',
-          '^[a-zA-Zа-яА-Яё]+$',
-        ],
-        field_put: 'student',
-        field_types: [,,,'sex','date','group'],
-      };
-    case 3:
-      return {
-        list: 'subject',
-        get: 'subjects',
-        info: 'account_info',
-        create: 'null',
-        delete: 'subject/',
-        title: 'Список предметов',
-        get_info: 'subject/',
-        fields: ['name', 'hours', 'exam'],
-        field_labels: ['name', 'hours', 'exam_label'],
-        field_titles: ['Название', 'Количество часов', 'Форма аттестации'],
-        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2,3}$', ''],
-        type: 'select',
-        field_put: 'subject',
-        field_types: [, , 'exam'],
-      };
-    default:
-      return [];
-  }
-}

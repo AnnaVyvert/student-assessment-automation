@@ -3,6 +3,7 @@ import { async_get, del_req, get_req } from '../server-api/requests_api';
 import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
+import { listApi } from '../utills/list_api';
 
 const FinalList = ({}) => {
   document.title = 'Итоговая ведомость';
@@ -12,7 +13,7 @@ const FinalList = ({}) => {
   const subjects = get_req('subjects')
   const students = get_req('students');
   console.log(subjects)
-  const requests = get_req_router(1);
+  const requests = listApi(5);
   // const elem = await async_get(requests.get);
   const [searchResults, setSearchResults] = useState(students);
   const [field_data, set_field_data] = useState({});
@@ -130,26 +131,3 @@ const FinalList = ({}) => {
 };
 
 export default FinalList;
-
-function get_req_router(role_id) {
-  switch (role_id) {
-    case 1:
-      return {
-        list: 'group',
-        get: 'groups',
-        info: 'account_info',
-        create: 'reg_ath',
-        delete: 'group/',
-        title: 'Итоговая ведомость',
-        get_info: 'group/',
-        fields: ['cipher', 'start_year', 'number'],
-        field_labels: ['cipher', 'start_year', 'number'],
-        field_titles: ['Шифр', 'Год начала обучения', 'Номер группы'],
-        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2}$', '^[0-9]{1,2}$'],
-        field_put: 'group',
-        field_types: [],
-      };
-    default:
-      return [];
-  }
-}
