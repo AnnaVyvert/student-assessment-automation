@@ -1,8 +1,6 @@
 import React from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { accountValidate } from "../../utills/account_validate";
-import { getRights } from "../../utills/get_rights";
 import './side_menu.css'
 
 const MenuBar = () => {
