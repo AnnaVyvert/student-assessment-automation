@@ -24,6 +24,7 @@ const ListPage = ({ role_id }) => {
   const Cell = ({elem, requests, i}) => {
     return (
       <td
+        className='td-clickable'
         key={i+'td'}
         onClick={(e) => {
           set_field_data({
@@ -90,7 +91,7 @@ const ListPage = ({ role_id }) => {
             <thead>
               <tr>
                 {requests.field_titles.map((key, i) => (
-                  <td>{key}</td>
+                  <td className='td-non-select'>{key}</td>
                 ))}
                 <td />
               </tr>
@@ -110,6 +111,7 @@ const ListPage = ({ role_id }) => {
                   <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
                 ))}
                   <td
+                    className='td-clickable'
                     onClick={(e)=>{
                       e.target.parentElement.style = 'display: none'
                       // console.log(requests.delete+elem.id)

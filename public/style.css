@@ -51,14 +51,13 @@ table {
 }
 thead {
   display: contents;
-  user-select: none;
 }
-tbody td {
+/* tbody td {
   cursor: pointer;
 }
 tbody td:hover {
   color: var(--third-color);
-}
+} */
 table td {
   border: 1px solid black; 
   padding: 1rem;
@@ -106,4 +105,13 @@ tr td:last-child {
 }
 .valid {
   background: no-repeat 95% 50% rgb(213, 255, 213);
+}
+.td-non-select {
+  user-select: none;
+}
+.td-clickable {
+  cursor: pointer
+}
+.td-clickable:hover {
+  color: var(--third-color);
 }
