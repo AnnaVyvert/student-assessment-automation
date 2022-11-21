@@ -25,6 +25,12 @@ const SearchBar = ({ elem, setSearchResults, type }) => {
             elem.name.toLowerCase().includes(query) ||
             elem.hours.toString().includes(query)
           );
+        case 'final_list':
+          return(
+            elem.surname.toLowerCase().includes(query) ||
+            elem.name.toString().includes(query) ||
+            elem.patronym.toString().includes(query)
+          )
         default:
           return false;
       }

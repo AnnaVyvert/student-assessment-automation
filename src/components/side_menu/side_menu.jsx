@@ -9,7 +9,7 @@ const MenuBar = () => {
   const navigate = useNavigate()
   const sideNav = useRef()
   const sideToNav = useRef()
-  const menu_point = (value, link) => <span onClick={()=>navigate(`${link}`)}>{value}</span>
+  const menu_point = (value, link) => <span onClick={()=>{navigate(`${link}`); window.location.reload()}}>{value}</span>
   const menu = 
   <>
     <div ref={sideNav} className="sidenav" onClick={()=>{}}>
@@ -19,7 +19,8 @@ const MenuBar = () => {
       {menu_point('Список групп', '/group-list')}
       {menu_point('Список студентов', '/student-list')}
       {menu_point('Список предметов', '/subject-list')}
-      {menu_point('Посмотреть промежуточную ведомость', '/edit-mark-form')}
+      {menu_point('Промежуточная ведомость', '/edit-mark-form')}
+      {menu_point('Итоговая ведомость', '/final-form')}
     </div>
     <div ref={sideToNav} className="side-to-nav" onClick={()=>{openMenu(false)}} />
   </>
