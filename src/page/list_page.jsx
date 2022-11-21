@@ -10,7 +10,7 @@ import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
 import { listApi } from '../utills/list_api';
 import { registrationEntityFields } from '../utills/registration_entity_fields';
-import { inputRouter } from '../utills/input_router';
+import { inputField } from '../components/input_field/input_field';
 
 const ListPage = ({ role_id }) => {
   document.title = 'Список';
@@ -24,7 +24,6 @@ const ListPage = ({ role_id }) => {
   const [searchResults, setSearchResults] = useState(elem);
   const [field_data, set_field_data] = useState({});
 
-  const fields = registrationEntityFields(role_id);
   const post_api = requests.field_put;
   const fields_storage = useRef();
   const registration_fields_ref = useRef({});
@@ -138,7 +137,7 @@ const ListPage = ({ role_id }) => {
                     onClick={(e) => {
                       e.target.parentElement.style = 'display: none';
                       // console.log(requests.delete+elem.id)
-                      del_req(requests.delete+elem.id)
+                      del_req(requests.delete + elem.id);
                     }}
                   >
                     {'[Удалить]'}
@@ -149,22 +148,21 @@ const ListPage = ({ role_id }) => {
                 {registration_fields.map((elem, i) => (
                   <td
                     ref={(el) => {
-                      registration_fields_ref.current[elem.name] =
-                        el;
+                      registration_fields_ref.current[elem.name] = el;
                     }}
                     onClick={() => {
                       // console.log(registration_fields_ref.current)
                       // console.log(Object.keys(registration_fields_ref.current))
                     }}
                   >
-                    {field(elem, i)}
+                    {inputField(elem, i)}
                   </td>
                 ))}
                 <td
                   className="td-clickable"
                   onClick={() => {
                     register(
-                      fields,
+                      registration_fields,
                       registration_fields_ref.current,
                       fields_storage,
                       post_api
@@ -185,16 +183,17 @@ const ListPage = ({ role_id }) => {
 export default ListPage;
 
 async function register(fields, registration_fields_ref, ref, post_api) {
-  const registration_fields_keys = Object.keys(registration_fields_ref)
+  const registration_fields_keys = Object.keys(registration_fields_ref);
 
-  console.log(registration_fields_ref)
-  const form_data = {}
-  for (let elem of registration_fields_keys){
-    const target = registration_fields_ref[elem].firstChild
-    console.log(target)
-    form_data[elem] = target.type === 'select-one'?
-    target.options[target.options.selectedIndex].id :
-    registration_fields_ref[elem].firstChild.value
+  console.log(registration_fields_ref);
+  const form_data = {};
+  for (let elem of registration_fields_keys) {
+    const target = registration_fields_ref[elem].firstChild;
+    console.log(target);
+    form_data[elem] =
+      target.type === 'select-one'
+        ? target.options[target.options.selectedIndex].id
+        : registration_fields_ref[elem].firstChild.value;
   }
 
   console.log(form_data);
@@ -209,7 +208,7 @@ async function register(fields, registration_fields_ref, ref, post_api) {
       elem.classList.remove('valid');
       return elem.classList.remove('invalid');
     });
-  window.location.reload()
+  window.location.reload();
 }
 
 function validateFields(fields, form_data, ref) {
@@ -247,7 +246,6 @@ function validateFields(fields, form_data, ref) {
         ? elem.setAttribute('class', 'field valid')
         : elem.setAttribute('class', 'field invalid')
     );
-    // querySe
   }
 }
 
@@ -260,82 +258,4 @@ function resetFields(ref) {
     });
 }
 
-const field = (elem, i, form_data) => {
-  console.log(elem)
-  switch (elem.type) {
-    case 'group':
-      form_data = { ...form_data, [elem.name]: elem.options[0] };
-      return select(i, elem.options, elem.name);
-    case 'sex':
-      return <select
-          className="field"
-          style={{textAlign: 'left'}}
-          defaultValue={field.group_label}
-        >
-        {elem.options.map((elem, i) => (
-          <option key={i} id={elem.id}>
-            {elem.label}
-          </option>
-        ))}
-      </select>
-    case 'exam':
-      return <select
-          className="field"
-          style={{textAlign: 'left'}}
-          defaultValue={1}
-        >
-        {elem.options.map((elem, i) => (
-          <option key={i} id={elem.id}>
-            {elem.label}
-          </option>
-        ))}
-      </select>
-    case 'date':
-      return <input
-        autoFocus
-        className="field"
-        type={'date'}
-        defaultValue={'2002-01-01'}
-      />
-    case 'datetime':
-      return datetime(i, elem.name, elem.placeholder);
-    default:
-      return input(i, elem.type, elem.name, elem.label, '100%');
-  }
-};
-const select = (i, options, name) =>(
-    <select
-      key={i}
-      name={name}
-      className="field"
-      // onChange={(e) => onChange(e)}
-    >
-      {options.map((elem, i) => (
-        <option key={i} id={elem.id}>{elem.label}</option>
-      ))}
-    </select>
-  );
-const datetime = (i, name, width, placeholder) => (
-  <input
-    key={i}
-    type={'datetime-local'}
-    name={name}
-    className="field"
-    style={{ width: width }}
-    placeholder={placeholder}
-    // onChange={(e) => onChange(e)}
-    autoComplete="off"
-  />
-);
-const input = (i, type, name, placeholder, width) => (
-  <input
-    key={i}
-    type={type}
-    name={name}
-    className="field"
-    style={{ width: width }}
-    placeholder={placeholder}
-    // onChange={(e) => onChange(e)}
-    autoComplete="off"
-  />
-);
+
