@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import NotFoundPage from "./page/404page";
+import AverageMarks from "./page/average_marks";
 import EditMarksPage from "./page/edit_marks_page";
 import FinalList from "./page/final_page";
 import ListPage from "./page/list_page";
@@ -19,9 +20,9 @@ const App = () => {
             <Route path="/group-list" element={<ListPage role_id={1}/>} />
             <Route path="/student-list" element={<ListPage role_id={2}/>} />
             <Route path="/subject-list" element={<ListPage role_id={3}/>} />
-            <Route path="/edit-mark-form" element={<EditMarksPage/>} />
 
-            {/* <Route path="/edit-mark-form" element={<ListPage role_id={3}/>} /> */}
+            <Route path="/edit-mark-form" element={<EditMarksPage/>} />
+            <Route path="/average-marks-form" element={<AverageMarks/>} />
             <Route path="/final-form" element={<FinalList />} />
            
             <Route path="*" element={<NotFoundPage />} />

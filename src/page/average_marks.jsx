@@ -6,7 +6,7 @@ import SearchBar from '../components/search_bar/search_bar';
 import { listApi } from '../utills/list_api';
 
 const AverageMarks = ({}) => {
-  document.title = 'Итоговая ведомость';
+  document.title = 'Средняя успеваемость';
   const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');

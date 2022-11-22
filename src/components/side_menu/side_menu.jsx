@@ -17,7 +17,8 @@ const MenuBar = () => {
       {menu_point('Список групп', '/group-list')}
       {menu_point('Список студентов', '/student-list')}
       {menu_point('Список предметов', '/subject-list')}
-      {menu_point('Промежуточная ведомость', '/edit-mark-form')}
+      {menu_point('Преподавательская ведомость', '/edit-mark-form')}
+      {menu_point('Средняя успеваемость', '/average-marks-form')}
       {menu_point('Итоговая ведомость', '/final-form')}
     </div>
     <div ref={sideToNav} className="side-to-nav" onClick={()=>{openMenu(false)}} />
