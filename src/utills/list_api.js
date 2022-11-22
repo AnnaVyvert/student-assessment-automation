@@ -57,7 +57,7 @@ export function listApi(role_id) {
       };
     case 5:
       return {
-        list: 'group',
+        list: 'final_list',
         get: 'groups',
         info: 'account_info',
         create: 'reg_ath',
@@ -70,6 +70,22 @@ export function listApi(role_id) {
         field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2}$', '^[0-9]{1,2}$'],
         field_put: 'group',
         field_types: [],
+      };
+    case 6:
+      return {
+        list: 'edit_list',
+        get: 'groups',
+        info: 'account_info',
+        create: 'reg_ath',
+        delete: 'group/',
+        title: 'Преподавательская ведомость',
+        get_info: 'group/',
+        fields: ['surname', 'name', 'patronym', 'mark', 'mark_date'],
+        field_labels: ['surname', 'name', 'patronym', 'mark', 'mark_date'],
+        field_titles: ['Фамилия', 'Имя', 'Отчество', 'Оценка', 'Дата'],
+        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[a-zA-Zа-яА-Яё]+$', '^[a-zA-Zа-яА-Яё]+$', '^[2-5]{1}$'],
+        field_put: 'result_list',
+        field_types: ['group',,,,'date'],
       };
     default:
       return [];

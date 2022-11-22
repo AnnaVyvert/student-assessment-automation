@@ -4,6 +4,18 @@ const groups_data = get_req('groups')
 const group_labels = groups_data.map(elem=>{
   return {id: elem.id, label: `${elem.cipher}-${elem.start_year}-${elem.number}`}
 })
+const students_data = get_req('students')
+const student_labels = students_data.map(elem=>{
+  return {id: elem.id, label: `${elem.surname} ${elem.name} ${elem.patronym}`}
+})
+const subjects_data = get_req('subjects')
+const subject_labels = subjects_data.map(elem=>{
+  return {id: elem.id, label: `${elem.name} (${elem.exam_label})`}
+})
+
+const nowDate = new Date()
+const defaultDateValue = `${nowDate.getFullYear()}-${nowDate.getMonth()+1}-${nowDate.getDate()}`
+
 export function registrationEntityFields(entity) {
   const api = listApi(entity)
   switch (entity) {
@@ -62,6 +74,7 @@ export function registrationEntityFields(entity) {
           required: true,
           regex: api.field_regexs[4],
           type: api.field_types[4],
+          default_value: '2002-01-01',
         },
         {
           label: api.field_titles[5],
@@ -141,6 +154,47 @@ export function registrationEntityFields(entity) {
           name: 'phone',
           regex: '^[+][7][9][0-9]{9}$',
           required: false,
+        },
+      ];
+    case 6:
+      return [
+        {
+          label: api.field_titles[0],
+          name: 'student_id',
+          required: true,
+          regex: '',
+          type: api.field_types[0],
+          options:  student_labels,
+        },
+        {
+          label: api.field_titles[3],
+          name: api.fields[3],
+          required: true,
+          regex: api.field_regexs[3],
+        },
+        {
+          label: api.field_titles[4],
+          name: api.fields[4],
+          required: true,
+          regex: api.field_regexs[4],
+          type: api.field_types[4],
+          default_value: defaultDateValue,
+        },
+        {
+          label: 'Предмет',
+          name: 'subject_id',
+          required: false,
+          regex: '',
+          options: subject_labels,
+          type: 'select_state',
+        },
+        {
+          label: 'Группа',
+          name: 'group_id',
+          required: false,
+          regex: '',
+          options: group_labels,
+          type: 'select_state',
         },
       ];
     default:

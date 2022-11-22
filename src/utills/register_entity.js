@@ -11,7 +11,7 @@ export async function registerEntity(fields, registration_fields_ref, ref, post_
         ? target.options[target.options.selectedIndex].id
         : registration_fields_ref[elem].firstChild.value;
   }
-
+  
   if (!validateFields(fields, form_data, ref))
     return console.log('failed validate');
   await async_post(post_api, form_data);
