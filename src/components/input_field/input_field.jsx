@@ -1,6 +1,8 @@
-export const inputField = (elem, i) => {
-  // console.log(elem);
+export const inputField = (elem, i, state) => {
+  console.log(elem);
   switch (elem.type) {
+    case 'select_state':
+      return select_state(i, elem.options, elem.name, state);
     case 'group':
       return select(i, elem.options, elem.name);
     case 'sex':
@@ -8,7 +10,7 @@ export const inputField = (elem, i) => {
     case 'exam':
       return select(i, elem.options, elem.name);
     case 'date':
-      return input_date(i);
+      return input_date(i, elem.default_value);
     case 'datetime':
       return datetime(i, elem.name, elem.placeholder);
     default:
@@ -20,6 +22,24 @@ const select = (i, options, name) => (
     key={i}
     name={name}
     className="field"
+  >
+    {options.map((elem, i) => (
+      <option
+        key={i}
+        id={elem.id}
+      >
+        {elem.label}
+      </option>
+    ))}
+  </select>
+);
+const select_state = (i, options, name, state) => (
+  <select
+    key={i}
+    name={name}
+    className="field"
+    onChange={(e)=>{state(e.target.options[e.target.selectedIndex].id)}}
+    defaultValue={options.filter((el)=>{return el.id === 1})[0].label}
   >
     {options.map((elem, i) => (
       <option
@@ -51,12 +71,12 @@ const input = (i, type, name, placeholder) => (
     autoComplete="off"
   />
 );
-const input_date = (i) => (
+const input_date = (i, default_value) => (
   <input
     key={i}
     autoFocus
     className="field"
     type={'date'}
-    defaultValue={'2002-01-01'}
+    defaultValue={default_value}
   />
 );
