@@ -4,6 +4,7 @@ import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
 import { listApi } from '../utills/list_api';
+import { printDiv } from '../utills/print_div';
 
 const FinalList = ({}) => {
   document.title = 'Итоговая ведомость';
@@ -58,10 +59,11 @@ const FinalList = ({}) => {
         className='add-btn'
         style={{position: 'absolute', right: 0, fontSize: '1.5em', top: '0.5em'}}
         onClick={()=>{
-          window.print()
+          // window.print()
+          printDiv('.wrap', 'style.css')
         }}
       >
-        Печать
+        {'Печать'}
       </button>
       <div
         style={{
@@ -95,7 +97,7 @@ const FinalList = ({}) => {
           <table className="table-editable">
             <thead>
               <tr>
-                <td />
+                <td/>
                 {subjects.map((key, i) => (
                   <td className='td-non-select'>
                     {key.name}
@@ -114,12 +116,12 @@ const FinalList = ({}) => {
                     // navigate('/competition?id=' + elem.id);
                   }}
                 >
-                <td className='td-non-select'>
-                  {elem.surname} {elem.name} {elem.patronym}
-                </td>
-                {subjects.map((key, i2) => (
-                  <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
-                ))}
+                  <td className='td-non-select'>
+                    {elem.surname} {elem.name} {elem.patronym}
+                  </td>
+                  {subjects.map((key, i2) => (
+                    <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
+                  ))}
                 </tr>
               ))}
             </tbody>

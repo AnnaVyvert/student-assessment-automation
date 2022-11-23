@@ -9,6 +9,7 @@ import { get_req } from '../server-api/requests_api';
 import { listApi } from '../utills/list_api';
 import { registerEntity } from '../utills/register_entity';
 import { registrationEntityFields } from '../utills/registration_entity_fields';
+import { printDiv } from '../utills/print_div'
 
 const EditMarksPage = () => {
   document.title = 'Преподавательская ведомость';
@@ -87,7 +88,8 @@ const group_labels = groups_data.map(elem=>{
           top: '0.5em',
         }}
         onClick={() => {
-          window.print();
+          // window.print();
+          printDiv('.wrap', 'style.css')
         }}
       >
         Печать

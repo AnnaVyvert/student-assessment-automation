@@ -4,6 +4,7 @@ import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
 import { listApi } from '../utills/list_api';
+import { printDiv } from '../utills/print_div';
 
 const AverageMarks = ({}) => {
   document.title = 'Средняя успеваемость';
@@ -58,7 +59,8 @@ const AverageMarks = ({}) => {
         className='add-btn'
         style={{position: 'absolute', right: 0, fontSize: '1.5em', top: '0.5em'}}
         onClick={()=>{
-          window.print()
+          // window.print()
+          printDiv('.wrap', 'style.css')
         }}
       >
         {'Печать'}
