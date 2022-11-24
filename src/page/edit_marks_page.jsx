@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { inputField } from '../components/input_field/input_field';
 import MenuBar from '../components/side_menu/side_menu';
 import Popup from '../popup/popup_base';
-import { get_req } from '../server-api/requests_api';
+import { del_req, get_req } from '../server-api/requests_api';
 import { listApi } from '../utills/list_api';
 import { registerEntity } from '../utills/register_entity';
 import { registrationEntityFields } from '../utills/registration_entity_fields';
 import { printDiv } from '../utills/print_div'
 import { getCookie } from '../utills/cookies_api';
+import useKeypress from 'react-use-keypress';
 
 const EditMarksPage = () => {
   document.title = 'Преподавательская ведомость';
@@ -31,6 +32,10 @@ const groups_data = get_req('groups')
 const group_labels = groups_data.map(elem=>{
   return {id: elem.id, label: `${elem.cipher}-${elem.start_year}-${elem.number}`}
 })
+const submit_btn = useRef();
+useKeypress('Enter', () => {
+  submit_btn.current.click();
+});
   // const subjects_data = get_req('subjectsid')
   // const subject_labels = subjects_data.map(elem=>{
   //   return {id: elem.id, label: `${elem.name} (${elem.exam_label})`}
@@ -195,7 +200,7 @@ const group_labels = groups_data.map(elem=>{
                     onClick={(e) => {
                       e.target.parentElement.style = 'display: none';
                       // console.log(requests.delete+elem.id)
-                      // del_req(requests.delete + elem.id);
+                      del_req(requests.delete + elem.rl_id);
                     }}
                   >
                     {'[Удалить]'}
@@ -236,6 +241,7 @@ const group_labels = groups_data.map(elem=>{
                     {inputField(registration_fields[2], 2)}
                   </td>
                   <td
+                    ref={submit_btn}
                     className="td-clickable"
                     onClick={() => {
                       registerEntity(

@@ -11,6 +11,7 @@ import { registrationEntityFields } from '../utills/registration_entity_fields';
 import { inputField } from '../components/input_field/input_field';
 import { resetFields } from '../utills/reset_fields';
 import { registerEntity } from '../utills/register_entity';
+import useKeypress from 'react-use-keypress';
 
 const ListPage = ({ role_id }) => {
   document.title = 'Список';
@@ -32,6 +33,10 @@ const ListPage = ({ role_id }) => {
     setCurrentPopup(a);
     setIsPopupVisible(true);
   };
+  const submit_btn = useRef();
+  useKeypress('Enter', () => {
+    submit_btn.current.click();
+  });
 
   const Cell = ({ elem, requests, i }) => {
     return (
@@ -154,6 +159,7 @@ const ListPage = ({ role_id }) => {
                   </td>
                 ))}
                 <td
+                  ref={submit_btn}
                   className="td-clickable"
                   onClick={() => {
                     registerEntity(

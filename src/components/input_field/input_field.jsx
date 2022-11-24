@@ -19,24 +19,42 @@ export const inputField = (elem, i, state) => {
       return input(i, elem.type, elem.name, elem.label);
   }
 };
-const select = (i, options, name) => (
-  <select
-    key={i}
-    name={name}
-    className="field"
-  >
-    {options.map((elem, i) => (
-      <option
-        key={i}
-        id={elem.id}
-      >
-        {elem.label}
-      </option>
-    ))}
-  </select>
-);
+const select = (i, options, name) => {
+  
+  console.log(options.find((el)=>{return el.id === parseInt(getCookie(name))}))
+  console.log(options, name)
+  console.log(getCookie(name))
+  return(
+    <select
+      key={i}
+      name={name}
+      className="field"
+      onChange={(e)=>{
+        setCookie(name, e.target.options[e.target.selectedIndex].id)
+        console.log(e.target.options[e.target.selectedIndex].id)
+      }}
+      defaultValue={()=> {
+        if (getCookie(name)){
+          const findElem = options.find((el)=>{return el.id === parseInt(getCookie(name))})
+          if(!!findElem)
+            return findElem.label
+        }
+        else return 1
+      }}
+    >
+      {options.map((elem, i) => (
+        <option
+          key={i}
+          id={elem.id}
+        >
+          {elem.label}
+        </option>
+      ))}
+    </select>
+  )
+};
 const select_state = (i, options, name, state) => {
-  console.log(options.filter((el)=>{return el.id === parseInt(getCookie(name))})[0])
+  console.log(options.find((el)=>{return el.id === parseInt(getCookie(name))}))
   return(
   <select
     key={i}
@@ -47,7 +65,7 @@ const select_state = (i, options, name, state) => {
       setCookie(name, e.target.options[e.target.selectedIndex].id, 7)
     }}
     // defaultValue={options.filter((el)=>{return el.id === 1})[0].label}
-    defaultValue={options.filter((el)=>{return el.id === parseInt(getCookie(name))})[0].label}
+    defaultValue={options.find((el)=>{return el.id === parseInt(getCookie(name))}).label}
   >
     {options.map((elem, i) => (
       <option
