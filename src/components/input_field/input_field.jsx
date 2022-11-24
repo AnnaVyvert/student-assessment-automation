@@ -1,3 +1,5 @@
+import { getCookie, setCookie } from "../../utills/cookies_api";
+
 export const inputField = (elem, i, state) => {
   console.log(elem);
   switch (elem.type) {
@@ -33,13 +35,19 @@ const select = (i, options, name) => (
     ))}
   </select>
 );
-const select_state = (i, options, name, state) => (
+const select_state = (i, options, name, state) => {
+  console.log(options.filter((el)=>{return el.id === parseInt(getCookie(name))})[0])
+  return(
   <select
     key={i}
     name={name}
     className="field"
-    onChange={(e)=>{state(e.target.options[e.target.selectedIndex].id)}}
-    defaultValue={options.filter((el)=>{return el.id === 1})[0].label}
+    onChange={(e)=>{
+      state(e.target.options[e.target.selectedIndex].id)
+      setCookie(name, e.target.options[e.target.selectedIndex].id, 7)
+    }}
+    // defaultValue={options.filter((el)=>{return el.id === 1})[0].label}
+    defaultValue={options.filter((el)=>{return el.id === parseInt(getCookie(name))})[0].label}
   >
     {options.map((elem, i) => (
       <option
@@ -49,8 +57,7 @@ const select_state = (i, options, name, state) => (
         {elem.label}
       </option>
     ))}
-  </select>
-);
+  </select>)};
 const datetime = (i, name, placeholder) => (
   <input
     key={i}

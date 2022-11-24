@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { async_get, del_req, get_req } from '../server-api/requests_api';
+import React, { useState } from 'react';
+import { get_req } from '../server-api/requests_api';
 import Popup from '../popup/popup_base';
 import MenuBar from '../components/side_menu/side_menu';
 import SearchBar from '../components/search_bar/search_bar';
@@ -11,10 +11,10 @@ const FinalList = ({}) => {
   const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');
-  const subjects = get_req('subjects')
+  const subjects = get_req('subjects');
   const students = get_req('students');
-  const avg_marks = get_req('result_list/final')
-  console.log(students)
+  const avg_marks = get_req('result_list/final');
+  console.log(students);
   const requests = listApi(5);
   // const elem = await async_get(requests.get);
   const [searchResults, setSearchResults] = useState(students);
@@ -26,15 +26,13 @@ const FinalList = ({}) => {
     setIsPopupVisible(true);
   };
 
-  const Cell = ({elem, requests, i}) => {
+  const Cell = ({ elem, requests, i }) => {
     return (
       <td
-        className='td-non-select'
-        style={{textAlign: 'center'}}
-        key={i+'td'}
-        onClick={(e) => {
-          
-        }}
+        className="td-non-select"
+        style={{ textAlign: 'center' }}
+        key={i + 'td'}
+        onClick={(e) => {}}
       >
         {elem[requests.field_labels[i]]}
       </td>
@@ -57,11 +55,16 @@ const FinalList = ({}) => {
         <MenuBar />
       </span>
       <button
-        className='add-btn'
-        style={{position: 'absolute', right: 0, fontSize: '1.5em', top: '0.5em'}}
-        onClick={()=>{
+        className="add-btn"
+        style={{
+          position: 'absolute',
+          right: 0,
+          fontSize: '1.5em',
+          top: '0.5em',
+        }}
+        onClick={() => {
           // window.print()
-          printDiv('.wrap', 'style.css')
+          printDiv('.wrap', 'style.css');
         }}
       >
         {'Печать'}
@@ -94,39 +97,47 @@ const FinalList = ({}) => {
         </div>
       </div>
       <div style={{}}>
-        <div className="wrap" style={{overflowX: 'scroll'}}>
-        <table className='table-result' style={{textAlign: 'center'}}>
+        <div
+          className="wrap"
+          style={{ overflowX: 'scroll' }}
+        >
+          <table
+            className="table-result"
+            style={{ textAlign: 'center' }}
+          >
             <thead>
               <tr>
-                <td/>
+                <td />
                 {subjects.map((key, i) => (
-                  <td>
-                    {key.name}
-                  </td>
+                  <td>{key.name}</td>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {searchResults.map((el, i)=>{
+              {searchResults.map((el, i) => {
                 // console.log('sub:', i)
-                return(
+                return (
                   <tr>
                     <td>
                       {el.surname} {el.name} {el.patronym}
                     </td>
-                  {subjects.map((el2, i2)=>{
-                    let findObject = avg_marks.find(elem => {return elem.subject_id === el2.id && elem.student_id === el.id})
-                    findObject = !!findObject? findObject.avg.substring(0,4) : ''
-                    findObject = parseFloat(findObject) 
-                    findObject = translate_result(findObject, el2.exam)
-                      
+                    {subjects.map((el2, i2) => {
+                      let findObject = avg_marks.find((elem) => {
+                        return (
+                          elem.subject_id === el2.id &&
+                          elem.student_id === el.id
+                        );
+                      });
+                      if (!!findObject){
+                        findObject = findObject.avg.substring(0, 4)
+                        findObject = parseFloat(findObject);
+                        findObject = translate_result(findObject, el2.exam);
+                      }else{
+                        findObject = '-'
+                      }
 
-                    return(
-                      <td>
-                        {findObject}
-                      </td>
-                    );
-                  })}
+                      return <td>{findObject}</td>;
+                    })}
                   </tr>
                 );
               })}
@@ -140,17 +151,14 @@ const FinalList = ({}) => {
 
 export default FinalList;
 
-const translate_result = (float, exam) =>{
-  if (exam){
-    if (float >= 4.5) return 'отлично'
-    else if (float >= 3.5 && float < 4.5) return 'хорошо'
-    else if (float >= 2.5 && float < 3.5) return 'удовлет.'
-    else if (float < 2.5) return 'неудовлет.'
+const translate_result = (float, exam) => {
+  if (exam) {
+    if (float >= 4.5) return 'отлично';
+    else if (float >= 3.5 && float < 4.5) return 'хорошо';
+    else if (float >= 2.5 && float < 3.5) return 'удовлет.';
+    else if (float < 2.5) return 'неудовлет.';
+  } else {
+    if (float >= 2.5) return 'зачтено';
+    else return 'незачтено';
   }
-  else{
-    if (float >= 2.5) return 'зачтено'
-    else return 'незачтено'
-  }
-
-
-}
+};

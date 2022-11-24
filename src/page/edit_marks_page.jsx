@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import { React } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { inputField } from '../components/input_field/input_field';
-import SearchBar from '../components/search_bar/search_bar';
 import MenuBar from '../components/side_menu/side_menu';
 import Popup from '../popup/popup_base';
 import { get_req } from '../server-api/requests_api';
@@ -10,14 +9,15 @@ import { listApi } from '../utills/list_api';
 import { registerEntity } from '../utills/register_entity';
 import { registrationEntityFields } from '../utills/registration_entity_fields';
 import { printDiv } from '../utills/print_div'
+import { getCookie } from '../utills/cookies_api';
 
 const EditMarksPage = () => {
   document.title = 'Преподавательская ведомость';
   const [id, set_id] = useState(1);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [currentPopup, setCurrentPopup] = useState('');
-  const [subjectId, setSubjectId] = useState(1);
-  const [groupId, setGroupId] = useState(1);
+  const [subjectId, setSubjectId] = useState(getCookie('subject_id'));
+  const [groupId, setGroupId] = useState(getCookie('group_id'));
 
   const marks = get_req(`result_list/marks/${subjectId}/${groupId}`);
   const students_data = get_req('student/group_id/' + groupId);
@@ -38,7 +38,7 @@ const group_labels = groups_data.map(elem=>{
   // console.log(subject_labels)
   const requests = listApi(6);
   // const elem = await async_get(requests.get);
-  const [searchResults, setSearchResults] = useState(marks);
+  const [searchResults, ] = useState(marks);
   const [field_data, set_field_data] = useState({});
   // const search = document.querySelector('.search-bar') || {}
   const registration_fields = registrationEntityFields(6);
@@ -86,7 +86,7 @@ const group_labels = groups_data.map(elem=>{
           obj={field_data}
         />
       )}
-      <span onClick={() => setSearchResults(marks)}>
+      <span>
         {/* на эту строчку потрачено 4 часа, она нужна для обновления списка после поиска и перехода в другой раздел меню */}
         <MenuBar />
       </span>
@@ -141,11 +141,6 @@ const group_labels = groups_data.map(elem=>{
           >
             {inputField({...registration_fields[4], options: group_labels}, 4, setGroupId)}
           </span>
-          {/* <SearchBar
-            elem={marks}
-            setSearchResults={setSearchResults}
-            type={'final_list'}
-          /> */}
         </div>
       </div>
       <div style={{}}>
