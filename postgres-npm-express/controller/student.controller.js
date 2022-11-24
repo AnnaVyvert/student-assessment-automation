@@ -26,6 +26,18 @@ class student_controller {
       res.status(400).send(e);
     }
   }
+  async get_by_group(req, res) {
+    const group_id = req.params.id;
+    try {
+      const call = await db.query(
+        `SELECT * FROM public.student where deleted = false and group_id = $1`,
+        [group_id]
+      );
+      res.json(call.rows);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  }
   async get_all(req, res) {
     // const call = await db.query(`SELECT id, name, surname, patronym, sex, birth, group_id FROM public.student where deleted = false order by surname`)
     const call = await db.query(
