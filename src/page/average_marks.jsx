@@ -13,8 +13,13 @@ const AverageMarks = ({}) => {
   const [currentPopup, setCurrentPopup] = useState('');
   const subjects = get_req('subjects')
   const students = get_req('students');
-  console.log(subjects)
-  const requests = listApi(5);
+  const avg_marks = get_req('result_list/final')
+  // const max_marks = get_req('result_list/max_marks')
+  // console.log(students)
+  // console.log(avg_marks)
+  // console.log(subjects)
+  // console.log(max_marks)
+  const requests = listApi(4);
   // const elem = await async_get(requests.get);
   const [searchResults, setSearchResults] = useState(students);
   const [field_data, set_field_data] = useState({});
@@ -31,9 +36,6 @@ const AverageMarks = ({}) => {
         className='td-non-select'
         style={{textAlign: 'center'}}
         key={i+'td'}
-        onClick={(e) => {
-          
-        }}
       >
         {elem[requests.field_labels[i]]}
       </td>
@@ -93,37 +95,39 @@ const AverageMarks = ({}) => {
         </div>
       </div>
       <div style={{}}>
-        <div className="wrap">
-          <table className="table-editable">
+        <div className="wrap" style={{overflowX: 'scroll'}}>
+          <table className='table-result' style={{textAlign: 'center'}}>
             <thead>
               <tr>
                 <td/>
                 {subjects.map((key, i) => (
-                  <td className='td-non-select'>
+                  <td>
                     {key.name}
                   </td>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {searchResults.map((elem, i) => (
-                <tr
-                  className="competition_list_row"
-                  key={i+'tr'}
-                  onClick={() => {
-                    console.log(elem)
-                    // console.log(requests.fields)
-                    // navigate('/competition?id=' + elem.id);
-                  }}
-                >
-                  <td className='td-non-select'>
-                    {elem.surname} {elem.name} {elem.patronym}
-                  </td>
-                  {subjects.map((key, i2) => (
-                    <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
-                  ))}
-                </tr>
-              ))}
+              {searchResults.map((el, i)=>{
+                // console.log('sub:', i)
+                return(
+                  <tr>
+                    <td>
+                      {el.surname} {el.name} {el.patronym}
+                    </td>
+                  {subjects.map((el2, i2)=>{
+                    let findObject = avg_marks.find(elem => {return elem.subject_id === el2.id && elem.student_id === el.id})
+                    console.log(el.id, el2.id, avg_marks.filter(elem => {return elem.subject_id === el.id && elem.st_id === el2.id})[0])
+                    findObject = !!findObject? findObject.avg.substring(0,4) : '' 
+                    return(
+                      <td>
+                        {findObject}
+                      </td>
+                    );
+                  })}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
