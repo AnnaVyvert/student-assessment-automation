@@ -28,8 +28,8 @@ const SearchBar = ({ elem, setSearchResults, type }) => {
         case 'final_list':
           return(
             elem.surname.toLowerCase().includes(query) ||
-            elem.name.toString().includes(query) ||
-            elem.patronym.toString().includes(query)
+            elem.name.toLowerCase().includes(query) ||
+            elem.patronym.toLowerCase().includes(query)
           )
         default:
           return false;
