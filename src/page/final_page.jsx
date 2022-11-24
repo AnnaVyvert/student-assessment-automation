@@ -13,7 +13,8 @@ const FinalList = ({}) => {
   const [currentPopup, setCurrentPopup] = useState('');
   const subjects = get_req('subjects')
   const students = get_req('students');
-  console.log(subjects)
+  const avg_marks = get_req('result_list/final')
+  console.log(students)
   const requests = listApi(5);
   // const elem = await async_get(requests.get);
   const [searchResults, setSearchResults] = useState(students);
@@ -93,37 +94,42 @@ const FinalList = ({}) => {
         </div>
       </div>
       <div style={{}}>
-        <div className="wrap">
-          <table className="table-editable">
+        <div className="wrap" style={{overflowX: 'scroll'}}>
+        <table className='table-result' style={{textAlign: 'center'}}>
             <thead>
               <tr>
                 <td/>
                 {subjects.map((key, i) => (
-                  <td className='td-non-select'>
+                  <td>
                     {key.name}
                   </td>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {searchResults.map((elem, i) => (
-                <tr
-                  className="competition_list_row"
-                  key={i+'tr'}
-                  onClick={() => {
-                    console.log(elem)
-                    // console.log(requests.fields)
-                    // navigate('/competition?id=' + elem.id);
-                  }}
-                >
-                  <td className='td-non-select'>
-                    {elem.surname} {elem.name} {elem.patronym}
-                  </td>
-                  {subjects.map((key, i2) => (
-                    <Cell elem={elem} requests={requests} i={i2} key={'td'+i2}/>
-                  ))}
-                </tr>
-              ))}
+              {searchResults.map((el, i)=>{
+                // console.log('sub:', i)
+                return(
+                  <tr>
+                    <td>
+                      {el.surname} {el.name} {el.patronym}
+                    </td>
+                  {subjects.map((el2, i2)=>{
+                    let findObject = avg_marks.find(elem => {return elem.subject_id === el2.id && elem.student_id === el.id})
+                    findObject = !!findObject? findObject.avg.substring(0,4) : ''
+                    findObject = parseFloat(findObject) 
+                    findObject = translate_result(findObject, el2.exam)
+                      
+
+                    return(
+                      <td>
+                        {findObject}
+                      </td>
+                    );
+                  })}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -133,3 +139,18 @@ const FinalList = ({}) => {
 };
 
 export default FinalList;
+
+const translate_result = (float, exam) =>{
+  if (exam){
+    if (float >= 4.5) return 'отлично'
+    else if (float >= 3.5 && float < 4.5) return 'хорошо'
+    else if (float >= 2.5 && float < 3.5) return 'удовлет.'
+    else if (float < 2.5) return 'неудовлет.'
+  }
+  else{
+    if (float >= 2.5) return 'зачтено'
+    else return 'незачтено'
+  }
+
+
+}
