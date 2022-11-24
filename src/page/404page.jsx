@@ -59,7 +59,7 @@ const NotFoundPage = () => {
             backgroundColor: '#202020',
             color: 'white',
             // userSelect: 'none'
-            // display: 'none'
+            display: 'none'
           }}
           onClick={(e)=>{
             // e.target.hidden = !e.target.hidden

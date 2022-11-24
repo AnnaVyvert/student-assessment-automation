@@ -47,7 +47,7 @@ class result_list_controller {
   async get_marks_by_group_subject(req, res){
     const subject_id = req.params.subject_id
     const group_id = req.params.group_id
-    const call = await db.query(`select *, to_char("date", 'DD/MM/YYYY') as mark_date from public.result_list rl, public.student st 
+    const call = await db.query(`select *, to_char("date", 'DD/MM/YYYY') as mark_date, rl.id as rl_id from public.result_list rl, public.student st 
     where rl.student_id = st.id and rl.deleted = false and rl.subject_id = $1 and st.group_id = $2 
     order by rl.date NULLS LAST`,
     [subject_id, group_id])
