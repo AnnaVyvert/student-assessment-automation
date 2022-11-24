@@ -118,7 +118,7 @@ const AverageMarks = ({}) => {
                   {subjects.map((el2, i2)=>{
                     let findObject = avg_marks.find(elem => {return elem.subject_id === el2.id && elem.student_id === el.id})
                     console.log(el.id, el2.id, avg_marks.filter(elem => {return elem.subject_id === el.id && elem.st_id === el2.id})[0])
-                    findObject = !!findObject? findObject.avg.substring(0,4) : '' 
+                    findObject = !!findObject? findObject.avg.substring(0,4) : '-' 
                     return(
                       <td>
                         {findObject}

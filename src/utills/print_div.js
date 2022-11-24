@@ -1,7 +1,7 @@
 import { get_txt } from "./get_txt";
 
 export async function printDiv(elem, filePath){
-    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+    var mywindow = window.open('', 'PRINT', 'height=1,width=1');
 
     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
     mywindow.document.write('</head><body >');
