@@ -55,9 +55,20 @@ const group_labels = groups_data.map(elem=>{
   const Cell = ({ elem, requests, i }) => {
     return (
       <td
-        className="td-non-select"
+        className="td-clickable"
         style={{ textAlign: 'center' }}
         key={i + 'td'}
+        onClick={(e) => {
+          set_field_data({
+            ...elem,
+            label: requests.field_titles[i],
+            value: e.target.textContent,
+            regex: requests.field_regexs[i],
+            put_req: `${requests.field_put}/${elem.id}/${requests.fields[i]}/`,
+            type: requests.field_types[i],
+          });
+          setIsPopupVisible(true);
+        }}
       >
         {elem[requests.field_labels[i]]}
       </td>
