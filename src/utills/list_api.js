@@ -50,10 +50,26 @@ export function listApi(role_id) {
         fields: ['name', 'hours', 'exam'],
         field_labels: ['name', 'hours', 'exam_label'],
         field_titles: ['Название', 'Количество часов', 'Форма аттестации'],
-        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2,3}$', ''],
+        field_regexs: ['^[a-zA-Zа-яА-Яё ]+$', '^[0-9]{2,3}$', ''],
         type: 'select',
         field_put: 'subject',
         field_types: [, , 'exam'],
+      };
+    case 4:
+      return {
+        list: 'avg_list',
+        get: 'groups',
+        info: 'account_info',
+        create: 'reg_ath',
+        delete: 'group/',
+        title: 'Средняя успеваемость',
+        get_info: 'group/',
+        fields: ['cipher', 'start_year', 'number'],
+        field_labels: ['cipher', 'start_year', 'number'],
+        field_titles: ['Шифр', 'Год начала обучения', 'Номер группы'],
+        field_regexs: ['^[a-zA-Zа-яА-Яё]+$', '^[0-9]{2}$', '^[0-9]{1,2}$'],
+        field_put: 'group',
+        field_types: [],
       };
     case 5:
       return {
