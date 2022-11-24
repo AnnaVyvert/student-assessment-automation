@@ -45,6 +45,9 @@ body{
   /* border: 1px solid; */
   /* margin: 0 auto; */
 }
+.table-result{
+  width: 100%;
+}
 table {
   border-collapse: collapse;
   table-layout: fixed;
