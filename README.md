@@ -1,4 +1,5 @@
 # student-assessment-automation
+react administrative app for student assessment 
 
 ## Preparation:
 npm i
