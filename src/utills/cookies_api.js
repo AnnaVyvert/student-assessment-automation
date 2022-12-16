@@ -15,7 +15,7 @@ export function getCookie(name) {
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
     if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
-  return null;
+  return 1;
 }
 export function eraseCookie(name) {
   document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
